@@ -1,0 +1,42 @@
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+oauth_tokens.json
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Zoho Catalyst
+.catalyst/
+catalyst-build/
+*.zip
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Large data / produced artefacts
+exports/*.csv
+exports/*.json
+exports/*.gz
+!exports/.gitkeep
+
+# Evidence-pack working files (reviewed artefacts checked in explicitly)
+evidence/draft/
+evidence/*.tmp.*
