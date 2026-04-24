@@ -1,0 +1,35 @@
+# FC-FCA-01 master recipient query — frozen 2026-04-24T15:40:40.643Z
+#
+# Method used at runtime: search-chunked-by-created-time
+# Output CSV row count:   2818
+# Output CSV SHA-256:     b78354fcd8aaf07ff55febc1ae3dcf305a8247af153e1995ac46164a1460a72d
+#
+# This query was executed against Zoho CRM v8 (EU DC) by
+# scripts/02_export_tagged_contacts.js using a Self-Client OAuth token.
+# Reproduction: paste this query into a fresh Self-Client (scope
+# ZohoCRM.modules.contacts.READ + ZohoCRM.coql.READ) and re-run.
+#
+# Note on the COQL vs criteria-Search choice:
+#   CRM v8 COQL does not officially support Tag.name as a queryable column.
+#   The script tries COQL first; if it returns 0 records or errors, it
+#   falls back to the v8 criteria-Search endpoint with the same filter
+#   expressed as Zoho CRM criteria syntax, which is what produced the
+#   authoritative count of 2,818 in the FC-FCA-01 evidence pack.
+
+Endpoint: GET /crm/v8/Contacts/search
+Base criteria: (Tag.name:equals:FCA Update Promo)
+Fields: id,Email,First_Name,Last_Name,Created_Time
+
+Search API caps at 2000 records per session. We have 2818 tagged
+Contacts, so the export runs three non-overlapping Created_Time
+chunks, each appended to the base criteria, and unions the results
+(deduplicated by id):
+
+  - pre-2025-08-06: (Tag.name:equals:FCA Update Promo) and (Created_Time:less_than:2025-08-06T00:00:00+01:00)
+  - 2025-08-06 to 2025-08-13: (Tag.name:equals:FCA Update Promo) and (Created_Time:between:2025-08-06T00:00:00+01:00,2025-08-13T00:00:00+01:00)
+  - 2025-08-13 to 2025-08-20: (Tag.name:equals:FCA Update Promo) and (Created_Time:between:2025-08-13T00:00:00+01:00,2025-08-20T00:00:00+01:00)
+  - 2025-08-20 to 2025-08-25: (Tag.name:equals:FCA Update Promo) and (Created_Time:between:2025-08-20T00:00:00+01:00,2025-08-25T00:00:00+01:00)
+  - 2025-08-25 to 2025-08-29: (Tag.name:equals:FCA Update Promo) and (Created_Time:between:2025-08-25T00:00:00+01:00,2025-08-29T00:00:00+01:00)
+  - 2025-08-29 to 2025-09-15: (Tag.name:equals:FCA Update Promo) and (Created_Time:between:2025-08-29T00:00:00+01:00,2025-09-15T00:00:00+01:00)
+  - 2025-09-15 to 2025-10-01: (Tag.name:equals:FCA Update Promo) and (Created_Time:between:2025-09-15T00:00:00+01:00,2025-10-01T00:00:00+01:00)
+  - 2025-10-01 to 2025-10-17: (Tag.name:equals:FCA Update Promo) and (Created_Time:between:2025-10-01T00:00:00+01:00,2025-10-17T00:00:00+01:00)

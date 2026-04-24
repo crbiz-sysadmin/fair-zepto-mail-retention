@@ -60,11 +60,29 @@ A reproducible bulk-export script that pulls the actual Contact IDs/emails to CS
 
 ## Outstanding work for the evidence pack
 
-- [ ] Bulk-export the 2,818 Contact IDs + emails to `master_recipients_2025-10-16.csv` with SHA-256 hash sidecar.
+- [x] Bulk-export the 2,818 Contact IDs + emails to [`master_recipients_2025-10-16.csv`](master_recipients_2025-10-16.csv) with SHA-256 sidecar [`master_recipients_2025-10-16.csv.sha256`](master_recipients_2025-10-16.csv.sha256). Reproducible via [`scripts/02_export_tagged_contacts.js`](../../scripts/02_export_tagged_contacts.js); the exact criteria + chunking strategy is frozen at [`source_queries/06_query_used.txt`](source_queries/06_query_used.txt). Method: chunked v8 Search-by-Criteria across 8 Created_Time windows (the Search API caps at 2,000 records per session and we have 2,818). COQL was attempted first but rejected `Tag.name` as a queryable column; Bulk Read API was unavailable due to OAuth scope.
 - [ ] Books cross-check: identify which of the 2,818 received cancellation invoices issued ≥ 16 Oct 2025. Output: `remediation_candidates.csv`.
 - [ ] Sean + Ony review of the master list and remediation candidates **before any state change** (CRM tagging, invoice reversal, claim closure).
 - [ ] Per-recipient remediation actions and `remediation_log.csv` (driven by Ony's direction).
 - [ ] SHA-256 manifest covering all artefacts in this pack.
+
+## Cohort distribution (from master CSV)
+
+The 2,818 recipients break down by Created_Time as follows — useful context for the FCA discussion of "who was in the cohort":
+
+| Created_Time bucket | Count | Notes |
+|---|---:|---|
+| Before 6 Aug 2025 | 969 | Pre-cohort tagged Contacts — Laura's selection extended beyond the documented 6–28 Aug window |
+| 6–13 Aug 2025 | 785 | Within cohort window |
+| 13–20 Aug 2025 | 981 | Within cohort window |
+| 20–25 Aug 2025 | 82 | Within cohort window |
+| 25–29 Aug 2025 | 0 | Within cohort window — none |
+| 29 Aug – 15 Sep 2025 | 1 | Edge case |
+| 15 Sep – 1 Oct 2025 | 0 | |
+| 1 Oct – 16 Oct 2025 | 0 | |
+| **Total** | **2,818** | Matches `getRecordCount` master query in [`source_queries/04_record_counts_2026-04-25.json`](source_queries/04_record_counts_2026-04-25.json) |
+
+Implication: of the 2,818, only 1,848 fall in the strict 6–28 Aug 2025 lead-creation window the meeting documented. The remaining 970 (mostly pre-6 Aug) were included by Laura's actual filter but not by the cohort-rule we'd retrospectively assume. **The tag is more authoritative than any retrospective filter reconstruction** — it captures the actual cohort processed by the workflow at send time.
 
 ## Methodology — for FCA presentation
 

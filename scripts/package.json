@@ -1,0 +1,13 @@
+{
+  "name": "fca-reconstruction-scripts",
+  "version": "1.0.0",
+  "description": "Reproducible scripts for FC-FCA-01 recipient reconstruction and Books cross-check",
+  "private": true,
+  "scripts": {
+    "export-tagged": "node 02_export_tagged_contacts.js"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -37,8 +37,8 @@ Full direction, task breakdown, dependencies and priority sequence: **[docs/FCA-
 - [x] Scope clarified — one email sent 16 Oct 2025 to a cohort filtered by 6–28 Aug 2025 lead criteria
 - [x] Zoho Sprints cards intake (9 cards in Fair Claims project)
 - [x] **FC-FCA-01 recipient list reconstructed: 2,818 Contacts** — see [evidence/2026-04-25_fca-promo-oct2025/](evidence/2026-04-25_fca-promo-oct2025/README.md). Tag-based; cross-confirmed.
-- [ ] Bulk-export the 2,818 to CSV with SHA-256 (blocked on CRM REST API access OR a custom view + cvid)
-- [ ] Books cross-check against post-16 Oct cancellation invoices (blocked on Books REST API access)
+- [x] Bulk-exported the 2,818 to [evidence/.../master_recipients_2025-10-16.csv](evidence/2026-04-25_fca-promo-oct2025/master_recipients_2025-10-16.csv) with SHA-256 sidecar via [scripts/02_export_tagged_contacts.js](scripts/02_export_tagged_contacts.js) (chunked v8 Search-by-Criteria, COQL attempted first)
+- [ ] Books cross-check against post-16 Oct cancellation invoices (uses CRM Invoices module mirror; awaiting confirmation of cancellation-invoice criteria)
 - [ ] Sean + Ony review of master list before any state change
 - [ ] Per-recipient remediation actions + remediation log
 - [ ] Email summary to Ony with reminder of broader CR cards + new prior-campaign audit CR (FC-FCA-02 to be raised)
