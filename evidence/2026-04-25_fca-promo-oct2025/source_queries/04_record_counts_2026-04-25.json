@@ -1,0 +1,45 @@
+{
+  "_capture_metadata": {
+    "captured_at": "2026-04-25",
+    "source_endpoint": "GET /crm/v8/Contacts/actions/count?criteria=...",
+    "purpose": "Frozen counts establishing the master recipient list and validating the cohort against the documented filter window."
+  },
+  "queries": [
+    {
+      "label": "Master count: Contacts currently tagged 'FCA Update Promo'",
+      "criteria": "(Tag.name:equals:FCA Update Promo)",
+      "count": 2818,
+      "_note": "**This is the FC-FCA-01 master recipient list.** Every Contact processed by sequence 2 of workflow rule 794088000139471721 receives this tag. With over_write=false, the tag persists through subsequent campaigns."
+    },
+    {
+      "label": "Sanity check: tagged AND created on or before 16 Oct 2025",
+      "criteria": "((Tag.name:equals:FCA Update Promo) and (Created_Time:less_equal:2025-10-16T23:59:59+01:00))",
+      "count": 2818,
+      "_note": "Identical to master count → 100% of tagged Contacts existed before the send date. No anomalies (e.g. Contacts created after Oct 16 carrying the tag erroneously)."
+    },
+    {
+      "label": "Cohort intersection: tagged AND lead-creation in 6\u201328 Aug 2025",
+      "criteria": "((Tag.name:equals:FCA Update Promo) and (Created_Time:between:2025-08-06T00:00:00+01:00,2025-08-28T23:59:59+01:00))",
+      "count": 1848,
+      "_note": "Of the 2,818 recipients, 1,848 fall in the strict 6\u201328 Aug 2025 lead-creation window described in the meeting transcript. The remaining 970 are tagged Contacts created OUTSIDE that window but on/before Oct 16. Implication: Laura's actual cohort selection was wider than 'leads created Aug 6\u201328'. The tag is more authoritative than any retrospective filter reconstruction \u2014 it captures the actual cohort the workflow processed, not what we infer from filter rules."
+    },
+    {
+      "label": "Cross-source confirmation: Paul Aldridge (Desk reply ticket #87471) is in the tagged cohort",
+      "criteria": "((Tag.name:equals:FCA Update Promo) and (Email:equals:paulaldridge604@gmail.com))",
+      "count": 1,
+      "_note": "Independent confirmation. Paul Aldridge replied to the campaign email on 16 Oct 2025 11:07 (Desk ticket #87471). His Contact in CRM has the FCA Update Promo tag. Cross-source agreement \u2014 the tag-based reconstruction is consistent with independent Desk-side evidence."
+    },
+    {
+      "label": "Cumulative Email Sent count (NOT campaign-specific \u2014 included for completeness)",
+      "criteria": "(Mass_Email_Clients:equals:Email Sent)",
+      "count": 35852,
+      "_note": "Total Contacts whose Mass_Email_Clients picklist currently reads 'Email Sent'. This is cumulative across ALL 8 campaigns sent via this workflow rule since Oct 2025; the picklist is overwritten on every send. Not useful for FC-FCA-01 reconstruction in isolation \u2014 documented here only so the reader understands why field-state alone fails."
+    }
+  ],
+  "_dead_query_documented_for_completeness": {
+    "label": "Direct picklist-value query for the Oct 16 campaign (S1 \u2014 plan-doc primary, found dead)",
+    "criteria": "(Mass_Email_Clients:equals:Important Update Regarding Promotions)",
+    "count": 0,
+    "_note": "Returns zero because the Deluge function overwrites the picklist to 'Email Sent' immediately after a successful send. With history_tracking_enabled=false on the field, no audit record of the Oct 16 value setting survives."
+  }
+}

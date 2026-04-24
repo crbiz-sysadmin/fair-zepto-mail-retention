@@ -15,14 +15,20 @@ Source artefacts (authoritative):
 
 ---
 
-## 1. Scope Clarification — Single Email, Dated Cohort
+## 1. Scope + Reconstruction Source — RESOLVED 25 Apr 2026
 
-Confirmed by Sean 24 Apr 2026: there is **one email**. It was sent on **16 Oct 2025** ("Important Update Regarding Promotions") to a recipient cohort filtered by **lead criteria falling between 6–28 Aug 2025**. The meeting transcript's reference to "an email sent between August 6–28" describes the recipient-cohort date range, not a separate send.
+Confirmed by Sean 24 Apr 2026: there is **one email**. It was sent on **16 Oct 2025** ("Important Update Regarding Promotions") to a recipient cohort filtered by **lead criteria falling between 6–28 Aug 2025**.
 
-Implications for FC-FCA-01:
-- Reconstruction target = the 16 Oct 2025 mailout only.
-- Recipient filter to reproduce = lead criteria in the 6–28 Aug 2025 window (plus excluded lead sources — exact parameters to be locked from Tony's candidate spreadsheet and triangulated against CRM workflow Timeline history).
-- Custom field marker name `FCA_Promo_Oct2025 = TRUE` stands (no rename).
+**Reconstruction source — RESOLVED 25 Apr 2026:** the multi-source triangulation plan (S1–S4 below) is superseded. The recipient list is the set of **2,818 Contacts in CRM currently tagged `FCA Update Promo`**. The tag was applied at send time by sequence 2 of CRM workflow rule `794088000139471721` and persists durably (no automated removal anywhere in the workflow chain). Cross-confirmed against an independent Zoho Desk reply ticket (Paul Aldridge, #87471).
+
+Full evidence pack: [`evidence/2026-04-25_fca-promo-oct2025/`](../evidence/2026-04-25_fca-promo-oct2025/README.md) — workflow rule JSON, Deluge function code, picklist values, frozen counts, Desk results, methodology.
+
+Implications:
+- S1 (CRM picklist current state) = **dead** (0 records; field is overwritten to `Email Sent` by the Deluge function).
+- S2 (CRM field audit log) = **dead** (`history_tracking_enabled = false` on the field).
+- S3 (Tony's WorkDrive spreadsheet) = no longer required; the tag is more authoritative than any retrospective filter reconstruction.
+- S4 (Desk reply tickets) = retained as confirmatory cross-check.
+- Custom field marker `FCA_Promo_Oct2025 = TRUE` is now redundant — the existing tag already serves this purpose.
 
 No splitting of FC-FCA-01 required.
 

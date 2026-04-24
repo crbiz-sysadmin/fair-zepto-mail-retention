@@ -1,0 +1,24 @@
+{
+  "_capture_metadata": {
+    "captured_at": "2026-04-25",
+    "source_endpoint": "GET /desk/v1/tickets/search?subject=Important Update Regarding Promotions&createdTimeRange=2025-10-16..2025-12-31",
+    "org_id": "20103213753",
+    "org_name": "Fair (Zoho Desk)",
+    "purpose": "Independent cross-source confirmation. Recipients of the 16 Oct 2025 mailout who replied generated tickets in Zoho Desk. Subject contains 'Re: FIAR - Important Update Regarding Promotions' (the 'FIAR' prefix confirms the campaign branding)."
+  },
+  "result_summary": {
+    "total_replies_returned": 6,
+    "earliest_created": "2025-10-16T11:07:57.000Z",
+    "latest_created": "2025-10-22T10:06:12.000Z",
+    "_note": "Reply rate 6/2818 \u2248 0.21%, consistent with typical transactional-email reply rates. This confirms the campaign happened, narrows the send-window timestamp to 16 Oct ~11:07 onwards, and provides 6 anchor recipients whose presence in the FCA Update Promo tag set has been independently verified (Paul Aldridge confirmed in 04_record_counts)."
+  },
+  "tickets": [
+    {"ticket_number": 87471, "created_time": "2025-10-16T11:07:57.000Z", "desk_contact_id": "188833000017672845", "first_name": "Paul", "last_name": "Aldridge", "email": "paulaldridge604@gmail.com", "phone": "+447415202791", "department": "Claims"},
+    {"ticket_number": 87500, "created_time": "2025-10-16T14:34:43.000Z", "desk_contact_id": "188833000017164439", "first_name": "Mitch", "last_name": "Oakes", "email": "mitcheljoakes@gmail.com", "phone": "+447824398746", "department": "Claims"},
+    {"ticket_number": 87516, "created_time": "2025-10-16T19:12:29.000Z", "desk_contact_id": "188833000018205581", "first_name": "Debra", "last_name": "Kroll", "email": "debra.kroll@gmail.com", "phone": "+447703124677", "department": "Compliance", "category": "Cancellation", "sub_category": "Outside 14 days"},
+    {"ticket_number": 87517, "created_time": "2025-10-16T19:24:06.000Z", "desk_contact_id": "188833000016422127", "first_name": "Gillian", "last_name": "Ruddell", "email": "gillianruddell@icloud.com", "phone": "+447757499019", "department": "Claims"},
+    {"ticket_number": 87721, "created_time": "2025-10-20T17:02:55.000Z", "desk_contact_id": "188833000017482453", "first_name": "Cathryn", "last_name": "Simpson", "email": "cathrynsimpson18@gmail.com", "phone": "+447854152840", "department": "Claims"},
+    {"ticket_number": 87819, "created_time": "2025-10-22T10:06:12.000Z", "desk_contact_id": "188833000016480057", "first_name": "Georgie", "last_name": "Corbin", "email": "georgiecorbin@me.com", "phone": "+447972927094", "department": "Claims"}
+  ],
+  "_followup_required": "Widen the search window beyond 31 Dec 2025 and remove subject-prefix variations to harvest all reply tickets. Captured here is the initial confirmatory pass."
+}

@@ -1,0 +1,38 @@
+{
+  "_capture_metadata": {
+    "captured_at": "2026-04-25",
+    "source_endpoint": "GET /crm/v8/settings/fields/794088000139471548/pick_list_values?module=Contacts",
+    "purpose": "Frozen list of all picklist values configured for the Mass_Email_Clients field on Contacts. Sequence 3 ('Important Update Regarding Promotions') is the trigger value for the 16 Oct 2025 mailout."
+  },
+  "field": {
+    "api_name": "Mass_Email_Clients",
+    "field_label": "Mass Email Clients",
+    "id": "794088000139471548",
+    "data_type": "picklist",
+    "history_tracking_enabled": false,
+    "_critical_note": "history_tracking_enabled is FALSE — there is no audit trail of changes to this field. This is why field-state queries alone cannot reconstruct the Oct 16 cohort and why the FCA Update Promo tag (which is durable and accumulates) is the authoritative reconstruction source."
+  },
+  "pick_list_values": [
+    {"sequence_number": 1, "actual_value": "-None-", "id": "794088000139471550"},
+    {"sequence_number": 2, "actual_value": "Claims Overview / Progress Update", "id": "794088000139471547"},
+    {"sequence_number": 3, "actual_value": "Important Update Regarding Promotions", "id": "794088000140158041", "_note": "**The Oct 16 2025 campaign trigger value.** Setting this on a Contact fires sequence 2 of workflow rule 794088000139471721, which sends the email and applies the FCA Update Promo tag."},
+    {"sequence_number": 4, "actual_value": "FCA Update Regarding The Redress Scheme", "display_value": "Redress Scheme Update With Claim Overview", "id": "794088000161268268"},
+    {"sequence_number": 5, "actual_value": "Fair Motor Complaints - Happy New Year", "id": "794088000167127001"},
+    {"sequence_number": 6, "actual_value": "Diesel Emissions Scandal & Overview", "id": "794088000189997013"},
+    {"sequence_number": 7, "actual_value": "March 2025 Customer Update", "display_value": "March 2026 Customer Update", "id": "794088000192914437"},
+    {"sequence_number": 8, "actual_value": "March 2025 Customer Update New", "display_value": "March 2026 Customer Update New", "id": "794088000201151001"},
+    {"sequence_number": 9, "actual_value": "March 2026 Customer Update New 3", "id": "794088000204244261"},
+    {"sequence_number": 10, "actual_value": "April 2026 Customer Portal", "id": "794088000214370371"}
+  ],
+  "_runtime_values_observed_in_data_but_not_in_picklist_definition": [
+    {
+      "value": "Email Sent",
+      "current_count": 35852,
+      "_note": "Set by the Mass Email Promotion Update Via ZeptoMail Deluge function (and equivalent functions for other campaigns) on successful ZeptoMail API response (EM_104). Cumulative across ALL campaigns since Oct 2025 — not specific to the Oct 16 send. NOT a defined picklist value but persists as the field's actual stored value."
+    },
+    {
+      "value": "Email Failed",
+      "_note": "Set by the Deluge function on any non-EM_104 ZeptoMail response. NOT a defined picklist value."
+    }
+  ]
+}

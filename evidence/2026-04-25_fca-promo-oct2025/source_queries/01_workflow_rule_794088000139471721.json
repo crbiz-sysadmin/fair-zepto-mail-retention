@@ -1,0 +1,82 @@
+{
+  "_capture_metadata": {
+    "captured_at": "2026-04-25",
+    "captured_by": "FC-FCA-01 evidence pack",
+    "source_endpoint": "GET /crm/v8/settings/automation/workflow_rules/794088000139471721",
+    "purpose": "Frozen copy of the workflow rule that triggered the 16 Oct 2025 mass email and applied the FCA Update Promo tag to every recipient. This is the authoritative chain of custody for FC-FCA-01 reconstruction."
+  },
+  "workflow_rules": [
+    {
+      "id": "794088000139471721",
+      "name": "Mass Email Via Zepto Mail",
+      "module": {
+        "api_name": "Contacts",
+        "id": "794088000000458116"
+      },
+      "created_time": "2025-10-15T17:28:27+01:00",
+      "created_by": {"name": "System Admin", "id": "794088000000427001"},
+      "last_executed_time": "2026-04-23T17:42:16+01:00",
+      "modified_time": "2026-04-23T17:41:59+01:00",
+      "execute_when": {
+        "type": "field_update",
+        "details": {
+          "trigger_module": {"api_name": "Contacts", "id": "794088000000458116"},
+          "criteria": {
+            "comparator": "${ANYVALUE}",
+            "field": {"api_name": "Mass_Email_Clients", "id": "794088000139471548"},
+            "value": "${ANYVALUE}"
+          },
+          "repeat": true,
+          "match_all": false
+        }
+      },
+      "status": {"active": true},
+      "_relevant_condition_for_FC_FCA_01": {
+        "sequence_number": 2,
+        "id": "794088000140158091",
+        "criteria_details": {
+          "criteria": {
+            "comparator": "equal",
+            "field": {"api_name": "Mass_Email_Clients", "id": "794088000139471548"},
+            "type": "value",
+            "value": "Important Update Regarding Promotions"
+          }
+        },
+        "instant_actions": {
+          "actions": [
+            {
+              "type": "functions",
+              "id": "794088000140158086",
+              "name": "Mass Email Promotion Update Via ZeptoMail",
+              "_note": "Deluge function that calls ZeptoMail API and overwrites Mass_Email_Clients to 'Email Sent' or 'Email Failed'. Code captured separately in 02_deluge_function_Mass_Email_Promotion_Update_Via_ZeptoMail.dg"
+            },
+            {
+              "type": "field_updates",
+              "id": "794088000175070147",
+              "name": "Last Auto Email Sent",
+              "_note": "Updates a date field tracking the most recent send"
+            },
+            {
+              "type": "add_tags",
+              "id": "794088000140158227",
+              "name": "FCA Update Promo",
+              "details": {
+                "module": {"api_name": "Contacts", "id": "794088000000458116"},
+                "over_write": false,
+                "tags": [
+                  {
+                    "name": "FCA Update Promo",
+                    "id": "794088000140158221",
+                    "color_code": "#2982D6"
+                  }
+                ]
+              },
+              "_note": "**THIS IS THE KEY EVIDENCE ANCHOR.** add_tags with over_write=false means the tag accumulates on every Contact processed by this condition; subsequent campaigns do not remove it."
+            }
+          ]
+        }
+      },
+      "_other_conditions_excluded_from_capture": "Conditions 1, 3-9 cover other campaigns (Claims Overview, Redress Scheme, Happy New Year, Diesel Emissions, March 2026 ×3, April 2026). Captured in 03_workflow_rule_full.json for completeness."
+    }
+  ]
+}

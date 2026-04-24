@@ -1,0 +1,81 @@
+// ──────────────────────────────────────────────────────────────────────────
+// CRM custom function — Deluge
+// Function name (in Workflow Rule action): Mass Email Promotion Update Via ZeptoMail
+// Function ID (per workflow rule): 794088000140158086
+// Source workflow rule: 794088000139471721, condition sequence 2
+// Provided by Sean Sullivan, captured 25 Apr 2026 for FC-FCA-01 evidence pack.
+//
+// Behaviour:
+//   1. Reads Contact record fields: Email, Full_Name, Client_Reference_Number
+//   2. Builds ZeptoMail template-send payload with template_key
+//      "13ef.46661e11b2f1e5ae.k1.9b012c10-aa7b-11f0-ba45-76699466976f.199ec954951"
+//      (i.e. the "Important Update Regarding Promotions" template)
+//   3. From: claims@fair.inc
+//   4. POSTs to https://api.zeptomail.eu/v1.1/email/template
+//   5. On success (response code "EM_104") updates Mass_Email_Clients to "Email Sent"
+//   6. On failure updates Mass_Email_Clients to "Email Failed"
+//
+// **Side-effect we rely on for FC-FCA-01:** the workflow rule's add_tags action
+// fires regardless of the function's success/failure outcome (it executes alongside
+// the function in the same condition). Therefore the FCA Update Promo tag is
+// applied to every Contact whose Mass_Email_Clients was set to
+// "Important Update Regarding Promotions", which is the trigger condition for the
+// 16 Oct 2025 send.
+//
+// **Authorization key in the body below is REDACTED** for this committed copy.
+// Original captured value preserved in operations records (not in the public repo).
+// ──────────────────────────────────────────────────────────────────────────
+
+void automation.Mass_Email_Promotion_Update_Via_ZeptoMail(Int contactId)
+{
+	contact = zoho.crm.getRecordById("Contacts",contactId);
+	toEmail = ifnull(contact.get("Email"),"");
+	fullName = ifnull(contact.get("Full_Name"),"Recipient");
+	clientRef = ifnull(contact.get("Client_Reference_Number"),"N/A");
+	if(toEmail.isEmpty())
+	{
+		info "No email found for Contact ID: " + contactId;
+		return;
+	}
+	info "Recipient email: " + toEmail + ", Name: " + fullName;
+	// Build merge_info JSON manually
+	mergeInfoJson = "{" + "\"Client Reference Number\":\"" + clientRef + "\"," + "\"First Name\":\"" + fullName + "\"," + "}";
+	// Build full JSON payload manually
+	jsonPayload = "{" + "\"from\":{\"address\":\"claims@fair.inc\"}," + "\"to\":[{\"email_address\":{\"address\":\"" + toEmail + "\",\"name\":\"" + fullName + "\"}}]," + "\"template_key\":\"13ef.46661e11b2f1e5ae.k1.9b012c10-aa7b-11f0-ba45-76699466976f.199ec954951\"," + "\"merge_info\":" + mergeInfoJson + "," + "\"track_opens\":true," + "\"track_clicks\":true" + "}";
+	headers = Map();
+	headers.put("accept","application/json");
+	headers.put("content-type","application/json");
+	headers.put("Authorization","Zoho-enczapikey <REDACTED-IN-COMMITTED-COPY>");
+	// Send the email via ZeptoMail API
+	response = invokeurl
+	[
+		url :"https://api.zeptomail.eu/v1.1/email/template"
+		type :POST
+		body:jsonPayload
+		headers:headers
+	];
+	info "Email Response for Contact ID " + contactId + ": " + response.toString();
+	// Parse response and update picklist
+	respMap = response.toMap();
+	updateMap = Map();
+	if(respMap.containsKey("data") && respMap.get("data").size() > 0)
+	{
+		code = respMap.get("data").get(0).get("code");
+		if(code == "EM_104")
+		{
+			// Email request received
+			updateMap.put("Mass_Email_Clients","Email Sent");
+		}
+		else
+		{
+			updateMap.put("Mass_Email_Clients","Email Failed");
+		}
+	}
+	else
+	{
+		updateMap.put("Mass_Email_Clients","Email Failed");
+	}
+	// Update the contact record
+	updateResp = zoho.crm.updateRecord("Contacts",contactId,updateMap);
+	info "Picklist update response: " + updateResp.toString();
+}
