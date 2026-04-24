@@ -15,23 +15,16 @@ Source artefacts (authoritative):
 
 ---
 
-## 1. Critical Discrepancy — Resolve Before FC-FCA-01 Starts
+## 1. Scope Clarification — Single Email, Dated Cohort
 
-The CR problem statement and FC-FCA-01 acceptance criteria treat the **16 Oct 2025 "Important Update Regarding Promotions"** email as the free-cancellation offer. The meeting transcript describes two *different* mailouts:
+Confirmed by Sean 24 Apr 2026: there is **one email**. It was sent on **16 Oct 2025** ("Important Update Regarding Promotions") to a recipient cohort filtered by **lead criteria falling between 6–28 Aug 2025**. The meeting transcript's reference to "an email sent between August 6–28" describes the recipient-cohort date range, not a separate send.
 
-| Mailout | Date (per transcript) | Content | Complaint risk |
-|---|---|---|---|
-| Free-cancellation offer | **6–28 Aug 2025** | Single-claim clients offered free cancellation under FCA agreement | **HIGH** — recipients later invoiced cancellation fees. This is the live FCA risk. |
-| "Important Update Regarding Promotions" | ~16 Oct 2025 | Cases placed on hold due to advertising issue | Secondary — no conflicting-message risk established |
+Implications for FC-FCA-01:
+- Reconstruction target = the 16 Oct 2025 mailout only.
+- Recipient filter to reproduce = lead criteria in the 6–28 Aug 2025 window (plus excluded lead sources — exact parameters to be locked from Tony's candidate spreadsheet and triangulated against CRM workflow Timeline history).
+- Custom field marker name `FCA_Promo_Oct2025 = TRUE` stands (no rename).
 
-**Risk if not resolved:** FC-FCA-01 as written would reconstruct the Oct 16 recipient list, reverse invoices for that cohort, and miss the actual Aug 6–28 free-cancellation recipients whose invoices are the live regulatory exposure.
-
-**Action required from Ony / Sean before FC-FCA-01 kicks off:**
-1. Confirm which email(s) carried the free-cancellation offer.
-2. Confirm which cohort(s) must be reconstructed — Aug 6–28, 16 Oct, or both.
-3. Lock the filter criteria used on each mailout (lead creation date range, excluded lead sources) as source of truth.
-
-If both mailouts are in scope, FC-FCA-01 splits into two reconstruction streams with shared methodology. Scoping note added to task breakdown below.
+No splitting of FC-FCA-01 required.
 
 ---
 
@@ -39,7 +32,7 @@ If both mailouts are in scope, FC-FCA-01 splits into two reconstruction streams 
 
 Three linked workstreams, sequenced by regulatory urgency:
 
-1. **FCA recipient recovery** (Category 2) — evidence-pack production for the FCA meeting. Independent of Zoho response. Highest priority. Starts Day 1 once the discrepancy above is resolved.
+1. **FCA recipient recovery** (Category 2) — evidence-pack production for the FCA meeting. Independent of Zoho response. Highest priority.
 2. **ZeptoMail retention remediation** (Category 1) — gated on Zoho Support response to the 22 Apr ticket. Scope design after response received. Target: six-year retention, immutable storage, per-client CRM timeline records.
 3. **Mass-mailout governance control** (Category 3) — preventative; scoping can start in parallel with Workstream 1. Final architecture waits on Workstream 2 (shared storage target assumed).
 
@@ -88,14 +81,14 @@ Format per task:
 ### Category 2 — FCA Recipient Recovery
 
 #### FC-FCA-01 — Reconstruct, cross-check and remediate the affected recipient list(s) (P0, Type: Story)
-- AC (verbatim from CR): Recipient list reconstructed by scripted search of CRM Contact/Deal timeline; reconstruction reproducible; cross-checked against filter criteria + Desk thread search; permanent custom field `FCA_Promo_Oct2025 = TRUE` (rename if scope changes — see below); cross-checked against Books/CRM cancellation invoices; for every match, claim closed + invoice reversed/credited + client contacted per Ony's direction; remediation log produced for FCA disclosure.
+- AC (verbatim from CR): Recipient list reconstructed by scripted search of CRM Contact/Deal timeline; reconstruction reproducible; cross-checked against filter criteria + Desk thread search; permanent custom field `FCA_Promo_Oct2025 = TRUE`; cross-checked against Books/CRM cancellation invoices; for every match, claim closed + invoice reversed/credited + client contacted per Ony's direction; remediation log produced for FCA disclosure.
 - Direction:
-  - **Scope decision required before kickoff** — see Section 1. If Aug 6–28 is the true cohort, rename custom field to `FCA_FreeCancel_Aug2025` and adjust picklist/workflow search terms. If both mailouts are in scope, split into FC-FCA-01a (Aug) and FC-FCA-01b (Oct) — shared methodology, two evidence packs.
-  - Reconstruction sources (in priority order): (1) CRM workflow "MassEmail via ZeptoMail" trigger history on "Mass Email Clients" picklist field — Timeline history on Contact records; (2) Zia search for template subject line; (3) original filter spreadsheet from Laura (Tony is searching); (4) Desk thread search on subject line as secondary verification.
-  - **Reproducibility** — whatever script or ZCQL query reconstructs the list must be checked into `Zepto Mail Retention/` folder so the method is evidential, not one-shot.
-  - **Cross-check** — match against Books invoices via email OR Contact ID OR Deal ID (all three, not just one — email addresses change).
+  - **Cohort** — clients whose lead criteria fall in **6–28 Aug 2025** (plus excluded lead sources). Mailout itself sent **16 Oct 2025**. Exact filter parameters to be locked from Tony's candidate spreadsheet and triangulated against CRM workflow Timeline history.
+  - Reconstruction sources (priority order): (1) CRM workflow "MassEmail via ZeptoMail" trigger history on "Mass Email Clients" picklist field — Timeline history on Contact records; (2) Zia search for template subject line; (3) original filter spreadsheet from Laura (Tony is searching); (4) Desk thread search on subject line as secondary verification.
+  - **Reproducibility** — whatever script or ZCQL query reconstructs the list is checked into `scripts/` so the method is evidential, not one-shot.
+  - **Cross-check** — match against Books invoices via email AND Contact ID AND Deal ID (all three, not just one — email addresses change).
   - **Remediation log** — CSV with: Contact ID, Deal ID, email, mailout date, invoice ID (if any), action taken, actioned-by, timestamp, client-contact method.
-- Gating: Section 1 discrepancy resolved by Ony/Sean. Filter criteria locked. Access to Books cancellation invoice export.
+- Gating: Filter criteria locked from Tony's spreadsheet. Access to Books cancellation invoice export.
 - Priority: **P0** — FCA meeting deadline.
 
 ### Category 3 — Mass-Mailout Governance
@@ -166,12 +159,11 @@ FC-ZM-01 (P1)
 
 ## 6. Open Questions / Risks
 
-1. **Scope of FCA cohort** (Section 1) — Aug 6–28 vs Oct 16 vs both. Blocks FC-FCA-01. Owner: Ony/Sean to confirm before 25 Apr EOD.
-2. **Original filter criteria** — Tony located a candidate spreadsheet but is not certain it is the right one. No email/Cliq trail exists. Risk: reconstructed list may be incomplete if filter differed. Mitigation: triangulate from workflow Timeline history (primary) + spreadsheet (secondary) + Desk thread (tertiary).
-3. **Storage target** — WorkDrive vs Catalyst DataStore for log archive. Affects FC-ZM-02, FC-GOV-01, FC-GOV-03. Owner: Sean to decide once Zoho response in hand.
-4. **Scope of prior mailouts** — CR excludes mass mailouts prior to 16 Oct 2025 from reconstruction; this may be expanded by the FCA after the meeting. Contingency plan: FC-FCA-01 methodology is reproducible, so prior mailouts can be reconstructed on the same pattern.
-5. **Migration-away contingency** — If Zoho confirms no remediation path on ZeptoMail, migration is in-scope. Out-of-scope for now but carry as a known contingency.
-6. **Books integration for invoice reversal** — FC-FCA-01 requires reversing/crediting cancellation invoices. Confirm the reversal process is Books-native or requires manual accounting entry. Coordinate with CFO / Business Analyst agent.
+1. **Original filter criteria** — Tony located a candidate spreadsheet but is not certain it is the right one. No email/Cliq trail exists. Risk: reconstructed list may be incomplete if filter differed. Mitigation: triangulate from workflow Timeline history (primary) + spreadsheet (secondary) + Desk thread (tertiary).
+2. **Storage target** — WorkDrive vs Catalyst DataStore for log archive. Affects FC-ZM-02, FC-GOV-01, FC-GOV-03. Owner: Sean to decide once Zoho response in hand.
+3. **Scope of prior mailouts** — CR excludes mass mailouts prior to 16 Oct 2025 from reconstruction; this may be expanded by the FCA after the meeting. Contingency plan: FC-FCA-01 methodology is reproducible, so prior mailouts can be reconstructed on the same pattern.
+4. **Migration-away contingency** — If Zoho confirms no remediation path on ZeptoMail, migration is in-scope. Out-of-scope for now but carry as a known contingency.
+5. **Books integration for invoice reversal** — FC-FCA-01 requires reversing/crediting cancellation invoices. Confirm the reversal process is Books-native or requires manual accounting entry. Coordinate with CFO / Business Analyst agent.
 
 ---
 
@@ -179,23 +171,11 @@ FC-ZM-01 (P1)
 
 | When | Who | Action |
 |---|---|---|
-| 24 Apr (today) | Sean | Confirm Aug vs Oct scope with Ony. Lock filter criteria source of truth. |
-| 24 Apr | Sean | Intake these 9 cards into Zoho Sprints under Fair Claims project with prefix `FCZM`. |
+| 24 Apr (today) | Sean | Lock filter criteria (lead-creation window 6–28 Aug 2025 + excluded lead sources) from Tony's spreadsheet as source of truth. |
+| ✅ 24 Apr | Sean | Sprint cards intake complete (9 cards in Zoho Sprints, Fair Claims project). |
 | 25 Apr | Sean | Chase Zoho Support ticket (FC-ZM-01). Escalate to account manager if no response. |
 | 25–27 Apr | Assigned dev | FC-FCA-01 reconstruction — produce draft recipient list + evidence pack. |
 | 27 Apr EOD | Sean + Ony | Evidence pack review. Sign off remediation log before FCA meeting. |
 | w/c 27 Apr | Sean | FCA meeting. Pack produced from FC-FCA-01 + FC-ZM-04 draft. |
-
----
-
-## 8. Sprints Intake Mechanic
-
-Option A — **manual** — Sean enters the 9 cards directly in Zoho Sprints UI using titles + AC from Section 3 above.
-
-Option B — **automated** — on confirmation, these can be created via the CRBIZ-SPRINTS MCP connector in one batch. Required inputs:
-- `projectId` for Fair Claims project in Sprints
-- `projitemtypeid` map (Story vs Task)
-- `projpriorityid` map (P0/P1/P2)
-- Assignee user IDs for initial owners
 
 Flag the preferred option and the inputs above, and the cards can be created in a single pass.

@@ -3,12 +3,9 @@
 **Attendees:** Sean, Tony, Perry
 **Recording:** https://fathom.video/share/3EaSspK3nt5Rq7WcJi_od6SsMsWb8Riv
 
-This is the session that produced the CR. It is the authoritative source of two facts the CR itself does not capture clearly:
+This is the session that produced the CR.
 
-1. The free-cancellation offer email was sent **6–28 Aug 2025**, not 16 Oct 2025.
-2. The 16 Oct 2025 "Important Update Regarding Promotions" email was a cases-on-hold notice for an advertising issue — not the free-cancellation offer.
-
-See **§1 of [FCA-ZeptoMail-CR-Direction.md](../FCA-ZeptoMail-CR-Direction.md)** for the scope-resolution requirement this creates.
+**Reading note (confirmed by Sean 24 Apr 2026):** the narrative below references both "August 6–28" and "16 October" dates. These are not two separate mailouts. There is **one email** — sent **16 Oct 2025** ("Important Update Regarding Promotions") — to a recipient cohort filtered by lead criteria in the **6–28 Aug 2025** window. The @10:40 reference to "an email sent between August 6–28" describes that cohort, not a distinct send. See §1 of [FCA-ZeptoMail-CR-Direction.md](../FCA-ZeptoMail-CR-Direction.md).
 
 ---
 

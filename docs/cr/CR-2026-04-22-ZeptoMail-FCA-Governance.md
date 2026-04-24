@@ -17,7 +17,7 @@ Three linked issues surfaced during the 22 Apr 2026 call:
 2. A mass email sent 16 Oct 2025 ("Important Update Regarding Promotions") offered ~2,500 single-claim clients free cancellation in line with an FCA-agreed remediation. The recipient list was never saved. ZeptoMail logs are purged. Any recipient subsequently invoiced a cancellation fee is a live FCA complaint risk.
 3. No durable audit artefact is produced at the point of any mass mailout. Workflow history only retains 90 days. Tags are unreliable as audit evidence. The same class of failure will recur on every future batch unless a governance control is implemented.
 
-> **Note (Direction doc §1):** the meeting transcript clarifies that the free-cancellation email was actually sent **6–28 Aug 2025**. The 16 Oct 2025 email was a cases-on-hold notice for an advertising issue. This CR's problem statement and FC-FCA-01 acceptance criteria conflate the two. Scope must be confirmed by Ony/Sean before FC-FCA-01 starts — see the direction doc for detail.
+> **Scope note (confirmed by Sean 24 Apr 2026):** the email was sent on 16 Oct 2025 to a recipient cohort filtered by lead criteria in the 6–28 Aug 2025 window. The transcript's reference to "an email sent between Aug 6–28" describes the cohort date range, not a separate send. FC-FCA-01 proceeds against the 16 Oct mailout as written.
 
 ## Objectives
 

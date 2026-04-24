@@ -34,8 +34,9 @@ Full direction, task breakdown, dependencies and priority sequence: **[docs/FCA-
 
 - [x] CR raised and approved
 - [x] Direction doc written
-- [ ] **Blocking:** Aug 6–28 vs 16 Oct email scope discrepancy to be resolved by Ony/Sean (see §1 of direction doc) — required before FC-FCA-01 kicks off
-- [ ] Zoho Sprints cards intake (9 cards — see direction doc §3)
+- [x] Scope clarified — one email sent 16 Oct 2025 to a cohort filtered by 6–28 Aug 2025 lead criteria
+- [x] Zoho Sprints cards intake (9 cards in Fair Claims project)
+- [ ] Lock exact filter parameters (lead-source exclusions + date window) from Tony's spreadsheet
 - [ ] FC-FCA-01 reconstruction script and evidence pack for FCA meeting
 
 ## Related
